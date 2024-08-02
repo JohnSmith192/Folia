@@ -38,8 +38,8 @@ jobs:
       - name: Apply Patches
         run: ./gradlew applyPatches
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: createReobfBundlerJars
+        run: ./gradlew createReobfBundlerJar
 
       - name: Check build output
         run: |
@@ -47,7 +47,6 @@ jobs:
           ls -lh .
 
       - name: Upload jars
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
-          name: folia-server
-          path: build/libs/*.jar
+          path: build/libs/
