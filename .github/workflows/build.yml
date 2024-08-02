@@ -3,10 +3,10 @@ name: Build Folia
 on:
   push:
     branches:
-      - main
+      - dev/1.21
   pull_request:
     branches:
-      - main
+      - dev/1.21
 
 jobs:
   build:
