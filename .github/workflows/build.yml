@@ -20,12 +20,15 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Cache Maven packages
+      - name: Cache Gradle dependencies
         uses: actions/cache@v3
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Configure Git User Details
         run: |
@@ -35,11 +38,11 @@ jobs:
       - name: Apply Patches
         run: ./gradlew applyPatches
 
-      - name: Build with Maven
-        run: mvn -B clean package --file pom.xml
+      - name: Build with Gradle
+        run: ./gradlew build
 
       - name: Upload jars
         uses: actions/upload-artifact@v3
         with:
           name: folia-server
-          path: target/folia-server.jar
+          path: build/libs/*.jar
